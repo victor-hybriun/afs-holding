@@ -15,7 +15,9 @@ import Animated, {
   runOnJS,
   useAnimatedProps,
   useAnimatedStyle,
+  useDerivedValue,
   useSharedValue,
+  withDelay,
   withSpring,
   withTiming,
 } from "react-native-reanimated";
@@ -35,7 +37,14 @@ export default function Index() {
   const size = useSharedValue(INITIAL_SIZE);
   const translateY = useSharedValue(0);
   const opacity = useSharedValue(1);
+  const navTrigger = useSharedValue(0);
   const [animating, setAnimating] = React.useState(false);
+
+  useDerivedValue(() => {
+    if (navTrigger.value === 1) {
+      runOnJS(router.replace)("/login");
+    }
+  }, []);
 
   const animatedProps = useAnimatedProps<SvgProps>(() => ({
     width: size.value,
@@ -50,14 +59,14 @@ export default function Index() {
     if (animating) return;
     setAnimating(true);
 
-    size.value = withSpring(FINAL_SIZE, { damping: 12, stiffness: 120 }, () => {
-      return runOnJS(router.replace)("/login");
+    size.value = withSpring(FINAL_SIZE, { damping: 16, stiffness: 100 }, () => {
+      navTrigger.value = withDelay(200, withTiming(1, { duration: 0 }));
     });
-    translateY.value = withSpring(height / 2.5 - FINAL_SIZE / 2, {
-      damping: 12,
-      stiffness: 120,
+    translateY.value = withSpring(height / 2.6 - FINAL_SIZE / 2, {
+      damping: 16,
+      stiffness: 100,
     });
-    opacity.value = withTiming(0, { duration: 400 });
+    opacity.value = withTiming(0, { duration: 250 });
   };
 
   return (

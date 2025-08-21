@@ -2,6 +2,7 @@ import LogoPrimary from "@/assets/images/logo-primary.svg";
 import AfsButton from "@/components/Button";
 import Input from "@/components/Input";
 import { colors } from "@/theme/color";
+import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import {
   Keyboard,
@@ -32,7 +33,12 @@ export default function Login() {
           <View style={styles.inputContainer}>
             <Input label="Usuário" />
             <Input label="Senha" />
-            <AfsButton title="Entrar" />
+            <AfsButton
+              title="Entrar"
+              onPress={() => {
+                router.replace("./home");
+              }}
+            />
           </View>
           <View style={styles.logoContainer}>
             <LogoPrimary width={90} height={90} />
