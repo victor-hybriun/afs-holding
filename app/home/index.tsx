@@ -1,11 +1,8 @@
 import FiRsSearch from "@/assets/images/fi-rs-search.svg";
-import IconCallendar from "@/assets/images/icon-callendar.svg";
-import IconDollarCircle from "@/assets/images/icon-dollar-circle.svg";
-import IconSettings from "@/assets/images/icon-settings.svg";
-import Header from "@/components/Header";
 import { colors } from "@/theme/color";
+import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -140,30 +137,20 @@ const data = [
 ];
 
 export default function Home() {
-  const [atTop, setAtTop] = useState(true);
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1, backgroundColor: "#fff" }}
+      style={{ flex: 1, backgroundColor: "#fff", paddingTop: "43%" }}
     >
+      <StatusBar style="light" />
       <View style={{ flex: 1, backgroundColor: "transparent" }}>
-        <StatusBar style="light" />
         <ScrollView
           style={{ flex: 1 }}
           contentContainerStyle={{ flexGrow: 1 }}
           keyboardShouldPersistTaps="handled"
           keyboardDismissMode="on-drag"
           showsVerticalScrollIndicator={false}
-          bounces={Platform.OS === "ios" ? !atTop : undefined}
-          alwaysBounceVertical={Platform.OS === "ios" ? !atTop : undefined}
-          onScroll={(e) => {
-            const y = e.nativeEvent.contentOffset.y;
-            const onTop = y <= 700;
-            if (onTop !== atTop) setAtTop(onTop);
-          }}
-          stickyHeaderIndices={[0]}
         >
-          <Header title="Home" />
           <View style={{ padding: 24, gap: 24 }}>
             <View style={{ gap: 2 }}>
               <Text style={styles.title}>Meus Centros de Custo</Text>
@@ -188,32 +175,35 @@ export default function Home() {
             </View>
             <View style={{ gap: 16 }}>
               {data.map((item) => (
-                <View key={item.id} style={styles.card}>
-                  <View style={{ gap: 6 }}>
-                    <Text
-                      style={{
-                        fontSize: 14,
-                        fontFamily: "Inter_400Regular",
-                        color: colors.black,
-                      }}
-                    >
-                      {item.titulo}
-                    </Text>
-                    <View style={styles.itemTextRow}>
-                      <IconSettings width={10} height={10} />
-                      <Text style={styles.itemText}>{item.equipamentos}</Text>
+                <Pressable
+                  key={item.id}
+                  onPress={() => router.push("./serviceorder/")}
+                >
+                  <View style={styles.card}>
+                    <View style={{ gap: 6 }}>
+                      <Text
+                        style={{
+                          fontSize: 14,
+                          fontFamily: "Inter_400Regular",
+                          color: colors.black,
+                        }}
+                      >
+                        {item.titulo}
+                      </Text>
+                      {/*   <View style={styles.itemTextRow}>
+                        <IconSettings width={10} height={10} />
+                        <Text style={styles.itemText}>{item.equipamentos}</Text>
+                      </View>
+                      <View style={styles.itemTextRow}>
+                        <IconDollarCircle width={10} height={10} />
+                        <Text style={styles.itemText}>{item.custo}</Text>
+                      </View>
+                      <View style={styles.itemTextRow}>
+                        <Iconcalendar width={10} height={10} />
+                        <Text style={styles.itemText}>{item.periodo}</Text>
+                      </View> */}
                     </View>
-                    <View style={styles.itemTextRow}>
-                      <IconDollarCircle width={10} height={10} />
-                      <Text style={styles.itemText}>{item.custo}</Text>
-                    </View>
-                    <View style={styles.itemTextRow}>
-                      <IconCallendar width={10} height={10} />
-                      <Text style={styles.itemText}>{item.periodo}</Text>
-                    </View>
-                  </View>
-                  <View style={{ justifyContent: "flex-end" }}>
-                    <Pressable>
+                    <View style={{ justifyContent: "flex-end" }}>
                       <View style={styles.buttonCard}>
                         <Text
                           style={{
@@ -225,9 +215,9 @@ export default function Home() {
                           Selecionar
                         </Text>
                       </View>
-                    </Pressable>
+                    </View>
                   </View>
-                </View>
+                </Pressable>
               ))}
             </View>
           </View>

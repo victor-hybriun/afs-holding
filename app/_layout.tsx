@@ -1,3 +1,4 @@
+import Header from "@/components/Header";
 import { Inter_400Regular } from "@expo-google-fonts/inter";
 import {
   OpenSans_300Light,
@@ -15,7 +16,8 @@ import {
   useFonts,
 } from "@expo-google-fonts/open-sans";
 import { Stack } from "expo-router";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { View } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -36,12 +38,26 @@ export default function RootLayout() {
   if (!loaded) return null;
 
   return (
-    <GestureHandlerRootView>
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="login/index" options={{ headerShown: false }} />
-        <Stack.Screen name="home/index" options={{ headerShown: false }} />
-      </Stack>
-    </GestureHandlerRootView>
+    <SafeAreaProvider>
+      <View style={{ flex: 1, backgroundColor: "#fff" }}>
+        <Header title="Home" />
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: {
+              backgroundColor: "#fff",
+            },
+          }}
+        >
+          <Stack.Screen name="index" />
+          <Stack.Screen name="login/index" />
+          <Stack.Screen name="home/index" />
+          <Stack.Screen
+            name="serviceorder/index"
+            options={{ headerShown: false }}
+          />
+        </Stack>
+      </View>
+    </SafeAreaProvider>
   );
 }

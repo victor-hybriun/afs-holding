@@ -35,6 +35,7 @@ const FINAL_SIZE = 200;
 
 export default function Index() {
   const size = useSharedValue(INITIAL_SIZE);
+  const scale = useSharedValue(1);
   const translateY = useSharedValue(0);
   const opacity = useSharedValue(1);
   const navTrigger = useSharedValue(0);
@@ -50,6 +51,12 @@ export default function Index() {
     width: size.value,
     height: size.value,
   }));
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ scale: scale.value }],
+    };
+  });
 
   const logoContainerStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: translateY.value }],
@@ -97,8 +104,18 @@ export default function Index() {
         </View>
         <View style={styles.footer}>
           <Text style={styles.title}>Operação segura, gestão eficiente.</Text>
-          <Pressable style={styles.button} onPress={handleStart}>
-            <FiRsArrowRight width={36} height={36} />
+          <Pressable
+            onPressIn={() => {
+              scale.value = withSpring(1.1, { damping: 8, stiffness: 150 });
+            }}
+            onPressOut={() => {
+              scale.value = withSpring(1, { damping: 8, stiffness: 150 });
+            }}
+            onPress={handleStart}
+          >
+            <Animated.View style={[styles.button, animatedStyle]}>
+              <FiRsArrowRight width={36} height={36} />
+            </Animated.View>
           </Pressable>
         </View>
       </Animated.View>
@@ -145,5 +162,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     borderRadius: 25,
   },
-  buttonText: { color: "#fff", fontSize: 16, fontWeight: "600" },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontFamily: "OpenSans_600SemiBold",
+  },
 });
