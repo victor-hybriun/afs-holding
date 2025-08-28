@@ -18,7 +18,7 @@ class ApiConfig {
   }
 
   private normalizeBase(url: string) {
-    return url.replace(/\/+$/, ""); // tira barra no final
+    return url.replace(/\/+$/, "");
   }
 
   public getApiBaseUrl() {
@@ -27,6 +27,7 @@ class ApiConfig {
 
   public auth = {
     login: () => `${this.baseUrl}/Authentication/Login`,
+    refresh: () => `${this.baseUrl}/Authentication/RefreshToken`,
   };
 }
 

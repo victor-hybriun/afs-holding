@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import { AuthProvider } from "@/services/auth/AuthProvider";
 import { Inter_400Regular } from "@expo-google-fonts/inter";
 import {
   OpenSans_300Light,
@@ -38,26 +39,28 @@ export default function RootLayout() {
   if (!loaded) return null;
 
   return (
-    <SafeAreaProvider>
-      <View style={{ flex: 1, backgroundColor: "#fff" }}>
-        <Header title="Home" />
-        <Stack
-          screenOptions={{
-            headerShown: false,
-            contentStyle: {
-              backgroundColor: "#fff",
-            },
-          }}
-        >
-          <Stack.Screen name="index" />
-          <Stack.Screen name="login/index" />
-          <Stack.Screen name="home/index" />
-          <Stack.Screen
-            name="serviceorder/index"
-            options={{ headerShown: false }}
-          />
-        </Stack>
-      </View>
-    </SafeAreaProvider>
+    <AuthProvider>
+      <SafeAreaProvider>
+        <View style={{ flex: 1, backgroundColor: "#fff" }}>
+          <Header title="Home" />
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              contentStyle: {
+                backgroundColor: "#fff",
+              },
+            }}
+          >
+            <Stack.Screen name="index" />
+            <Stack.Screen name="login/index" />
+            <Stack.Screen name="home/index" />
+            <Stack.Screen
+              name="serviceorder/index"
+              options={{ headerShown: false }}
+            />
+          </Stack>
+        </View>
+      </SafeAreaProvider>
+    </AuthProvider>
   );
 }

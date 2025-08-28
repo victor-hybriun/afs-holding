@@ -11,6 +11,8 @@ import { colors } from "../../theme/color";
 type Props = {
   title: string;
   onPress?: () => void;
+  onPressIn?: () => void;
+  onPressOut?: () => void;
   icon?: React.ReactNode;
   outline?: boolean;
   disabled?: boolean;
@@ -20,6 +22,8 @@ type Props = {
 
 export default function AfsButton({
   onPress,
+  onPressIn,
+  onPressOut,
   title,
   icon,
   outline,
@@ -32,6 +36,8 @@ export default function AfsButton({
       accessibilityRole="button"
       disabled={disabled}
       onPress={onPress}
+      onPressIn={onPressIn}
+      onPressOut={onPressOut}
       style={({ pressed }) => [
         styles.button,
         outline ? styles.buttonOutline : styles.buttonSolid,

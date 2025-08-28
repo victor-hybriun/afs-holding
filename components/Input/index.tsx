@@ -20,9 +20,31 @@ const COLORS = {
 
 type Props = {
   label: string;
+  value?: string;
+  onChangeText?: any;
+  onSubmitEditing?: () => void;
+  secureTextEntry?: boolean;
+  ref?: React.Ref<TextInput>;
+  autoCorrect?: boolean;
+  autoCapitalize?: string;
+  keyboardType?: string;
+  returnKeyType?: string;
 } & TextInputProps;
 
-export default function Input({ label, value, style, ...props }: Props) {
+export default function Input({
+  label,
+  value,
+  style,
+  onChangeText,
+  autoCorrect,
+  keyboardType,
+  returnKeyType,
+  onSubmitEditing,
+  autoCapitalize,
+  secureTextEntry,
+  ref,
+  ...props
+}: Props) {
   const [focused, setFocused] = useState(false);
 
   const focusProg = useSharedValue(0);
@@ -70,6 +92,14 @@ export default function Input({ label, value, style, ...props }: Props) {
           onBlur={() => setFocused(false)}
           placeholderTextColor={COLORS.hint}
           style={[styles.input, style]}
+          onChangeText={onChangeText}
+          autoCorrect={autoCorrect}
+          autoCapitalize={autoCapitalize}
+          keyboardType={keyboardType}
+          returnKeyType={returnKeyType}
+          onSubmitEditing={onSubmitEditing}
+          secureTextEntry={secureTextEntry}
+          ref={ref}
         />
       </Animated.View>
     </View>
